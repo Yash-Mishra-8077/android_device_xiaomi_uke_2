@@ -1,0 +1,3 @@
+add_lunch_combo twrp_uke-user
+add_lunch_combo twrp_uke-userdebug
+add_lunch_combo twrp_uke-eng
