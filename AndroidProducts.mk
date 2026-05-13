@@ -9,7 +9,6 @@ PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/twrp_uke.mk
 
 COMMON_LUNCH_CHOICES := \
-    twrp_uke-trunk_staging-eng \
     twrp_uke-user \
     twrp_uke-userdebug \
     twrp_uke-eng
