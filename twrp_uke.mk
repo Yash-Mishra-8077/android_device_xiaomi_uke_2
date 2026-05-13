@@ -9,6 +9,9 @@
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
+# Inherit from twrp
+$(call inherit-product, vendor/twrp/config/common.mk)
+
 # Inherit from uke device
 $(call inherit-product, device/xiaomi/uke/device.mk)
 
