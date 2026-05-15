@@ -1,0 +1,52 @@
+# Copyright (c) 2023 Qualcomm Technologies, Inc.
+# All Rights Reserved.
+# Confidential and Proprietary - Qualcomm Technologies, Inc.
+
+service vendor.camera-provider /vendor/bin/hw/vendor.qti.camera.provider-service_64
+    interface aidl android.hardware.camera.provider.ICameraProvider/vendor_qti/0
+    interface aidl vendor.qti.hardware.camera.offlinecamera.IOfflineCameraService/default
+    interface aidl vendor.xiaomi.hardware.quickcamera.IQuickCameraService/default
+    interface aidl vendor.qti.hardware.camera.aon.IAONService/default
+    interface vendor.qti.hardware.camera.postproc@1.0::IPostProcService camerapostprocservice
+    interface vendor.qti.hardware.camera.aon@1.0::IAONService aoncameraservice
+    interface vendor.qti.hardware.camera.aon@1.1::IAONService aoncameraservice
+    interface vendor.qti.hardware.camera.aon@1.2::IAONService aoncameraservice
+    interface vendor.qti.hardware.camera.aon@1.3::IAONService aoncameraservice
+    interface vendor.qti.hardware.camera.aon@1.4::IAONService aoncameraservice
+    interface vendor.xiaomi.hardware.bgservice@1.0::IBGService default
+    # MIUI ADD: Camera_CameraOpt
+    interface vendor.xiaomi.hardware.intentaware@1.0::IIntentAwareService default
+    # END Camera_CameraOpt
+    interface aidl vendor.xiaomi.hardware.aon.IAlwaysOn/miaonservicehal
+    interface aidl vendor.xiaomi.hardware.aidlbgservice.IBGService/default
+    class hal
+    user cameraserver
+    group system audio camera input drmrpc oem_2907 oem_2912 wakelock
+    ioprio rt 4
+    capabilities SYS_NICE BLOCK_SUSPEND IPC_LOCK
+    task_profiles CameraServiceCapacity CameraServicePerformance CameraProcessProviderMemcg
+    # MIUI ADD : Performance_MemoryEnhance
+    writepid /sys/kernel/reserve_pool/pid
+    # END Performance_MemoryEnhance
+
+on boot
+    chown cameraserver camera /sys/module/camera/parameters/cam_event_inject
+    chown cameraserver camera /sys/module/camera/parameters/cam_cci_io_protect
+    chown cameraserver camera /sys/module/camera/parameters/sensor_apply_settings_control
+    chmod 0664 /sys/kernel/reserve_pool/config
+    chmod 0666 /sys/power/wake_lock
+    chmod 0666 /sys/power/wake_unlock
+    chmod 0666 /sys/module/camera/parameters/cam_cci_io_protect
+    chmod 0666 /sys/module/camera/parameters/sensor_apply_settings_control
+    chmod u+xwr /data/vendor/camera
+    chown camera camera /data/vendor/camera/hook.db
+    chmod u+xwr /data/vendor/camera/hook.db
+    chown camera camera /data/vendor/camera/immunesystem.db
+    chmod u+xwr /data/vendor/camera/immunesystem.db
+    write /data/vendor/camera/immunesystembigdata.day0.json ""
+    write /data/vendor/camera/immunesystembigdata.day1.json ""
+    write /data/vendor/camera/immunesystembigdata.day2.json ""
+    chmod 0666 /data/vendor/camera/immunesystembigdata.day0.json
+    chmod 0666 /data/vendor/camera/immunesystembigdata.day1.json
+    chmod 0666 /data/vendor/camera/immunesystembigdata.day2.json
+    setprop persist.vendor.camera.firstBoot 1
